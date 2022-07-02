@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import sherlock_index
+from .sherlockscripts.sherlock import sherlock
 urlpatterns = [
-    path('', sherlock_index, name='sherlock_index'),
+    path('', sherlock, name='sherlock_index'),
 ]
