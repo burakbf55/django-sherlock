@@ -3,6 +3,7 @@
 This module defines the objects for notifying the caller about the
 results of queries.
 """
+from .forms import SherlockForm
 from .result import QueryStatus
 from colorama import Fore, Style
 
@@ -186,6 +187,9 @@ class QueryNotifyPrint(QueryNotify):
         # return
 
     def update(self, result):
+        form = SherlockForm()
+        
+            
         """Notify Update.
 
         Will print the query result to the standard output.
@@ -214,6 +218,11 @@ class QueryNotifyPrint(QueryNotify):
                   f" {self.result.site_name}: " +
                   Style.RESET_ALL +
                   f"{self.result.site_url_user}")
+
+            form.instance.link = self.result.site_name
+        
+            print(self.result.site_name)
+            # models -> print(f"{self.result.site_name}: f"{self.resultt.site_url_user}"")
 
         elif result.status == QueryStatus.AVAILABLE:
             if self.print_all:
@@ -272,6 +281,7 @@ class QueryNotifyPrint(QueryNotify):
         # An empty line between first line and the result(more clear output)
 
         return
+
 
     def __str__(self):
         """Convert Object To String.

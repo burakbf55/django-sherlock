@@ -437,6 +437,7 @@ def sherlock(username, site_data, query_notify,
                             query_time=response_time,
                             context=error_context)
         query_notify.update(result)
+        
 
         # Save status of request
         results_site["status"] = result
@@ -672,6 +673,7 @@ def main(request):
                     all_usernames.append(username)
             for username in all_usernames:
                 username = form.cleaned_data['username']
+                
                 results = sherlock(username,
                                 site_data,
                                 query_notify,
@@ -679,6 +681,7 @@ def main(request):
                                 unique_tor=args.unique_tor,
                                 proxy=args.proxy,
                                 timeout=args.timeout)
+                
 
                 if args.output:
                     result_file = args.output
@@ -755,13 +758,15 @@ def main(request):
                         url_user.append(results[site]["url_user"])
                         exists.append(str(results[site]["status"].status))
                         http_status.append(results[site]["http_status"])
-                    
+                        print(results[site])
                     DataFrame=pd.DataFrame({"username":usernames , "name":names , "url_main":url_main , "url_user":url_user , "exists" : exists , "http_status":http_status , "response_time_s":response_time_s})
                     DataFrame.to_excel(f'{username}.xlsx', sheet_name='sheet1', index=False)
-
+                    
 
                 print()
             query_notify.finish()
+            form.save()
+            
 
             
     return render(request, 'sherlock.html', context)
