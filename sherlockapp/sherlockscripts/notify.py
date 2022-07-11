@@ -218,8 +218,6 @@ class QueryNotifyPrint(QueryNotify):
                   f" {self.result.site_name}: " +
                   Style.RESET_ALL +
                   f"{self.result.site_url_user}")
-
-            form.instance.link = self.result.site_name
         
             print(self.result.site_name)
             # models -> print(f"{self.result.site_name}: f"{self.resultt.site_url_user}"")

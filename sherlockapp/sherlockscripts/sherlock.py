@@ -19,6 +19,7 @@ from time import monotonic
 
 import requests
 from .forms import SherlockForm
+from .models import SherlockUser
 from requests_futures.sessions import FuturesSession
 from torrequest import TorRequest
 from .result import QueryStatus
@@ -672,7 +673,15 @@ def main(request):
                 else:
                     all_usernames.append(username)
             for username in all_usernames:
-                username = form.cleaned_data['username']
+                if form.is_valid():
+                    cd = form.cleaned_data
+             
+                    su = SherlockUser(
+                        username = cd['username'],
+                    )
+                    
+                    
+                    username = form.cleaned_data['username']
                 
                 results = sherlock(username,
                                 site_data,
@@ -692,7 +701,12 @@ def main(request):
                     result_file = os.path.join(args.folderoutput, f"{username}.txt")
                 else:
                     result_file = f"{username}.txt"
-
+                exists_counter = 0
+                # for website_name in results:
+                #     dictionary = results[website_name]
+                #     if dictionary.get("status").status == QueryStatus.CLAIMED:
+                #         exists_counter += 1
+                #         form.instance.link = dictionary["url_user"] + "\n"
                 with open(result_file, "w", encoding="utf-8") as file:
                     exists_counter = 0
                     for website_name in results:
@@ -702,7 +716,11 @@ def main(request):
                             file.write(dictionary["url_user"] + "\n")
                     file.write(
                         f"Total Websites Username Detected On : {exists_counter}\n")
-
+                with open(result_file, 'r', encoding="utf-8") as file:
+                    su.link = file.readlines()
+                    
+                    
+                su.save()
                 if args.csv:
                     result_file = f"{username}.csv"
                     if args.folderoutput:
@@ -745,7 +763,7 @@ def main(request):
                     response_time_s = []
 
             
-                
+                    
                     for site in results:
 
                         if response_time_s is None:
@@ -762,10 +780,10 @@ def main(request):
                     DataFrame=pd.DataFrame({"username":usernames , "name":names , "url_main":url_main , "url_user":url_user , "exists" : exists , "http_status":http_status , "response_time_s":response_time_s})
                     DataFrame.to_excel(f'{username}.xlsx', sheet_name='sheet1', index=False)
                     
-
+                    
                 print()
             query_notify.finish()
-            form.save()
+    context['result_web'] = SherlockUser.objects.all()
             
 
             

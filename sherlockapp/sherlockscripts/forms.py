@@ -1,8 +1,4 @@
 from django import forms
-from .models import SherlockUser
 
-class SherlockForm(forms.ModelForm):
-
-    class Meta:
-        model = SherlockUser
-        fields = ['username',]
+class SherlockForm(forms.Form):
+    username = forms.CharField(max_length = 150)
