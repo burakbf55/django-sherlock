@@ -698,9 +698,9 @@ def main(request):
                     # The usernames results should be stored in a targeted folder.
                     # If the folder doesn't exist, create it first
                     os.makedirs(args.folderoutput, exist_ok=True)
-                    result_file = os.path.join(args.folderoutput, f"{username}.txt")
+                    result_file = os.path.join(args.folderoutput, f"media/txt/{username}.txt")
                 else:
-                    result_file = f"{username}.txt"
+                    result_file = f"media/txt/{username}.txt"
                 exists_counter = 0
                 # for website_name in results:
                 #     dictionary = results[website_name]
