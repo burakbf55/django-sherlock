@@ -219,7 +219,6 @@ class QueryNotifyPrint(QueryNotify):
                   Style.RESET_ALL +
                   f"{self.result.site_url_user}")
         
-            print(self.result.site_name)
             # models -> print(f"{self.result.site_name}: f"{self.resultt.site_url_user}"")
 
         elif result.status == QueryStatus.AVAILABLE:

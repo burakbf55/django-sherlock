@@ -713,11 +713,12 @@ def main(request):
                         dictionary = results[website_name]
                         if dictionary.get("status").status == QueryStatus.CLAIMED:
                             exists_counter += 1
-                            file.write(dictionary["url_user"] + "\n")
+                            file.write(dictionary["url_user"] + ",")
+                            print(results)
                     file.write(
                         f"Total Websites Username Detected On : {exists_counter}\n")
                 with open(result_file, 'r', encoding="utf-8") as file:
-                    su.link = file.readlines()
+                    su.link = file.readlines() # --> [2] file'daki listeleri parselamayı denemeliyiz.
                     
                     
                 su.save()
